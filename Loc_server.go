@@ -34,27 +34,29 @@ type Sights struct {
 }
 
 func sendData(w http.ResponseWriter, r *http.Request) {
-	palace := Sight{
-		Id:          1,
-		Name:        "Palace",
-		Description: "olololo",
-		Location: Location{
-			Id:  1,
-			Lat: 0.23,
-			Lng: 9.3,
-		},
-		Links: []Link{
-			{
-				Id:   1,
-				Name: "BigPalace",
-				Type: 4,
-				Link: "palace.org",
+	palace := []Sight{
+		{
+			Id:          1,
+			Name:        "Palace",
+			Description: "olololo",
+			Location: Location{
+				Id:  1,
+				Lat: 0.23,
+				Lng: 9.3,
 			},
-			{
-				Id:   1,
-				Name: "palace",
-				Type: 4,
-				Link: "palace.org",
+			Links: []Link{
+				{
+					Id:   1,
+					Name: "BigPalace",
+					Type: 4,
+					Link: "palace.org",
+				},
+				{
+					Id:   1,
+					Name: "palace",
+					Type: 4,
+					Link: "palace.org",
+				},
 			},
 		},
 	}
