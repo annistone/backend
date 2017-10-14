@@ -22,16 +22,22 @@ type Location struct {
 }
 
 type Sight struct {
-	Id       int
-	Name     string
-	Location Location
-	Links    []Link
+	Id          int
+	Name        string
+	Description string
+	Location    Location
+	Links       []Link
+}
+
+type Sights struct {
+	Sights []Sight
 }
 
 func sendData(w http.ResponseWriter, r *http.Request) {
 	palace := Sight{
-		Id:   1,
-		Name: "Palace",
+		Id:          1,
+		Name:        "Palace",
+		Description: "olololo",
 		Location: Location{
 			Id:  1,
 			Lat: 0.23,
