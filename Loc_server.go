@@ -30,7 +30,7 @@ type Sight struct {
 func sendData(w http.ResponseWriter, r *http.Request) {
 	palace := Sight{
 		Id:   1,
-		Name: "Reds",
+		Name: "Palace",
 		Location: Location{
 			Id:  1,
 			Lat: 0.23,
@@ -39,7 +39,7 @@ func sendData(w http.ResponseWriter, r *http.Request) {
 		Links: []Link{
 			{
 				Id:   1,
-				Name: "palace",
+				Name: "BigPalace",
 				Type: 4,
 				Link: "palace.org",
 			},
