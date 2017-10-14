@@ -71,6 +71,6 @@ func main() {
 
 	http.HandleFunc("/getData", sendData)
 
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 
 }
