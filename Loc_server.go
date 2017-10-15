@@ -153,13 +153,13 @@ func main() {
 			Id:          0,
 			Text:        "Тише едешь - дальше будешь!",
 			Description: "Вы были самым медленным путником на данном маршруте",
-			Image:       "https://www.google.ru/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwj6gr_u6PLWAhWBa5oKHY5hAIUQjRwIBw&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DD2yY1F1-HqI&psig=AOvVaw225Fq6P5yE6yDN9t81MYlv&ust=1508163447914390",
+			Image:       "https://vignette.wikia.nocookie.net/adventuretime/images/0/07/Waving_Snail.png/revision/latest/scale-to-width-down/200?cb=20130620091222&path-prefix=ru",
 		},
 		{
 			Id:          0,
 			Text:        "Родина не забудет",
 			Description: "Посетив это место, вы поддержали отечественного производителя!",
-			Image:       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRAQ1BiIu42_JwJ-38MRudrZgnjIgszwQ-cc1ty541N-TRUWFk",
+			Image:       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST8cQlN57WWcLv7kqTMkKTITiAs07l3s4kNQ9PWNHBLc9Sw3wn",
 		},
 		{
 			Id:          0,
