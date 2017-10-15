@@ -55,6 +55,7 @@ func sendMapItems(w http.ResponseWriter, r *http.Request) {
 	}
 
 	str := string(b) // convert content to a 'string'
+	fmt.Println("", str)
 
 	if err != nil {
 		fmt.Println("error:", err)
