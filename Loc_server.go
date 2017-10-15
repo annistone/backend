@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -47,65 +48,19 @@ type User struct {
 }
 
 func sendMapItems(w http.ResponseWriter, r *http.Request) {
-	palace := []Sight{
-		{
-			Id:          1,
-			Name:        "Palace",
-			Image:       "https://www.riu.com/es/binaris/piscina-riu-palace-las-americas-2016_tcm49-157129.jpg",
-			Description: "olololo",
-			Location: Location{
-				Id:  1,
-				Lat: 59.956377,
-				Lng: 30.309408,
-			},
-			Links: []Link{
-				{
-					Id:   1,
-					Name: "BigPalace",
-					Type: 4,
-					Link: "palace.org",
-				},
-				{
-					Id:   1,
-					Name: "palace",
-					Type: 4,
-					Link: "palace.org",
-				},
-			},
-		},
-		{
-			Id:          1,
-			Name:        "Palace2",
-			Description: "Palace was builded in 1332.",
-			Image:       "https://taj.tajhotels.com/content/dam/luxury/hotels/Umaid_Bhavan/images/16x7/33397215.jpg",
-			Location: Location{
-				Id:  1,
-				Lat: 59.956333,
-				Lng: 30.309487,
-			},
-			Links: []Link{
-				{
-					Id:   1,
-					Name: "OldPalace",
-					Type: 4,
-					Link: "palace.org",
-				},
-				{
-					Id:   1,
-					Name: "palace",
-					Type: 4,
-					Link: "palace.org",
-				},
-			},
-		},
+
+	b, err := ioutil.ReadFile("base.json") // just pass the file name
+	if err != nil {
+		fmt.Print(err)
 	}
 
-	b, err := json.Marshal(palace)
+	str := string(b) // convert content to a 'string'
+
 	if err != nil {
 		fmt.Println("error:", err)
 	}
 
-	fmt.Fprintf(w, string(b))
+	fmt.Fprintf(w, str)
 }
 
 func sendUsrInfo(w http.ResponseWriter, r *http.Request) {
