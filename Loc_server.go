@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 type Link struct {
@@ -47,6 +48,13 @@ type User struct {
 	Achievements []Achievement `json:"achievements"`
 }
 
+type Prize struct {
+	Price       int         `json:"price"`
+	Achievement Achievement `json:"achievement"`
+}
+
+var user User
+
 func sendMapItems(w http.ResponseWriter, r *http.Request) {
 
 	b, err := ioutil.ReadFile("base.json") // just pass the file name
@@ -55,8 +63,6 @@ func sendMapItems(w http.ResponseWriter, r *http.Request) {
 	}
 
 	str := string(b) // convert content to a 'string'
-	fmt.Println("", str)
-
 	if err != nil {
 		fmt.Println("error:", err)
 	}
@@ -64,36 +70,7 @@ func sendMapItems(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, str)
 }
 
-func sendUsrInfo(w http.ResponseWriter, r *http.Request) {
-	user := []User{
-		{
-			Id:        1,
-			Name:      "Tanya",
-			Last_name: "Tanya",
-			Rating:    45,
-			Image:     "http://i.imgur.com/Rl8Upz0.jpg",
-			Achievements: []Achievement{
-				{
-					Id:          0,
-					Text:        "Вы дошли!",
-					Description: "Вы дошли до этого места. Возьмите пряник!",
-					Image:       "http://host/image.jpg",
-				},
-				{
-					Id:          0,
-					Text:        "Вы дошли!",
-					Description: "Вы дошли до этого места. Возьмите пряник!",
-					Image:       "http://host/image.jpg",
-				},
-				{
-					Id:          0,
-					Text:        "Вы дошли!",
-					Description: "Вы дошли до этого места. Возьмите пряник!",
-					Image:       "http://host/image.jpg",
-				},
-			},
-		},
-	}
+func sendUserInfo(w http.ResponseWriter, r *http.Request) {
 
 	b, err := json.Marshal(user)
 	if err != nil {
@@ -103,7 +80,59 @@ func sendUsrInfo(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(b))
 }
 
+func sendPrize(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		return
+	}
+
+	achieveIdStr := r.FormValue("id")
+	achieveId, err := strconv.Atoi(achieveIdStr)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+
+	price := 100
+
+	for _, userAchieveId := range user.Achievements {
+		if userAchieveId.Id == achieveId {
+			price = 0
+		}
+	}
+
+	newAchievement := Achievement{
+		Id:          achieveId,
+		Text:        "Вы дошли!",
+		Description: "Вы дошли до этого места. Возьмите пряник!",
+		Image:       "https://i.pinimg.com/236x/a5/76/99/a57699849fb0d8f69c8e4016457b5c66--job-well-done-quotes-congratulations-quotes.jpg",
+	}
+
+	if price != 0 {
+		user.Achievements = append(user.Achievements, newAchievement)
+	}
+
+	prize := Prize{
+		Price:       price,
+		Achievement: newAchievement,
+	}
+
+	b, err := json.Marshal(prize)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+
+	fmt.Fprintf(w, string(b))
+}
+
 func main() {
+
+	user = User{
+		Id:           1,
+		Name:         "Tanya",
+		Last_name:    "Tanya",
+		Rating:       45,
+		Image:        "http://i.imgur.com/Rl8Upz0.jpg",
+		Achievements: []Achievement{},
+	}
 
 	port := os.Getenv("PORT")
 
@@ -112,7 +141,8 @@ func main() {
 	}
 
 	http.HandleFunc("/api/getMapItems", sendMapItems)
-	http.HandleFunc("/api/getUsrInfo", sendUsrInfo)
+	http.HandleFunc("/api/getUserInfo", sendUserInfo)
+	http.HandleFunc("/api/sendPosition", sendPrize)
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 
