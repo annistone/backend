@@ -110,6 +110,8 @@ func sendPrize(w http.ResponseWriter, r *http.Request) {
 		user.Achievements = append(user.Achievements, newAchievement)
 	}
 
+	user.Rating += price
+
 	prize := Prize{
 		Price:       price,
 		Achievement: newAchievement,
