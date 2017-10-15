@@ -129,10 +129,10 @@ func main() {
 
 	user = User{
 		Id:           1,
-		Name:         "Tanya",
-		Last_name:    "Tanya",
+		Name:         "Curiosity",
+		Last_name:    "Curiosity",
 		Rating:       45,
-		Image:        "http://i.imgur.com/Rl8Upz0.jpg",
+		Image:        "https://goo.gl/images/tyPfdM",
 		Achievements: []Achievement{},
 	}
 
