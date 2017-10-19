@@ -1,14 +1,5 @@
 package models
 
-type InterfaceMapItem struct {
-	Id          int      `json:"id"`
-	Name        string   `json:"name"`
-	Description string   `json:"description"`
-	Image       string   `json:"image"`
-	Location    Location `json:"location"`
-	Link        Link     `json:"link"`
-}
-
 type Link struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
