@@ -18,7 +18,7 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
-	// test connection
+
 	err = db.Ping()
 	if err != nil {
 		panic(err)
