@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Loc_server/achievementsApi"
 	"Loc_server/mapItemsApi"
 	"Loc_server/usersApi"
 	"github.com/jmoiron/sqlx"
@@ -9,10 +10,6 @@ import (
 	"net/http"
 	"os"
 )
-
-//sendUserInfo
-func experimental(db *sqlx.DB) {
-}
 
 func main() {
 
@@ -32,11 +29,14 @@ func main() {
 		log.Fatal("$PORT must be set")
 	}
 
-	experimental(db)
-
+	// returns list of mapItem objects (TODO: return objects only from screen)
 	http.HandleFunc("/api/getMapItems", mapItemsApi.MkGetMapItemsHandler(db))
+
+	// returns info of user with requested id
 	http.HandleFunc("/api/getUserInfo", usersApi.MkGetUserInfoHandler(db))
-	//	http.HandleFunc("/api/sendPosition", sendPrize)
+
+	// returns bonus object if user doesn't have this ahievement yet
+	http.HandleFunc("/api/sendPosition", achievementsApi.MkSendBonusHandler(db))
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 

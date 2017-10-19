@@ -38,7 +38,7 @@ type User struct {
 	Achievements []Achievement `json:"achievements"`
 }
 
-type Prize struct {
+type Bonus struct {
 	Price       int         `json:"price"`
 	Achievement Achievement `json:"achievement"`
 }
