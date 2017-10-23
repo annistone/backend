@@ -21,7 +21,7 @@ func getUserInfo(w http.ResponseWriter, r *http.Request, db *sqlx.DB) {
 	userIDStr := r.FormValue("id")
 	userID, err := strconv.Atoi(userIDStr)
 	if err != nil {
-		fmt.Println("error:", err)
+		log.Fatalln("error:", err)
 	}
 
 	var user models.User

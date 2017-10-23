@@ -22,13 +22,13 @@ func sendBonus(w http.ResponseWriter, r *http.Request, db *sqlx.DB) {
 	userIDStr := r.FormValue("userID")
 	userID, err := strconv.Atoi(userIDStr)
 	if err != nil {
-		fmt.Println("error:", err)
+		log.Fatalln("error:", err)
 	}
 
 	achivementIDStr := r.FormValue("achievementID")
 	receivedAchivementID, err := strconv.Atoi(achivementIDStr)
 	if err != nil {
-		fmt.Println("error:", err)
+		log.Fatalln("error:", err)
 	}
 
 	var achievement models.Achievement
@@ -42,12 +42,12 @@ func sendBonus(w http.ResponseWriter, r *http.Request, db *sqlx.DB) {
 	}
 
 	prices := make(chan int, 10)
+
 	go func() {
 		for rows.Next() {
 			err = rows.StructScan(&achievement)
 			if err != nil {
-				fmt.Println(err)
-				continue
+				log.Fatal(err)
 			}
 			if achievement.Id == receivedAchivementID {
 				prices <- 0
@@ -57,19 +57,21 @@ func sendBonus(w http.ResponseWriter, r *http.Request, db *sqlx.DB) {
 	}()
 	price := <-prices
 
-	fmt.Println(price)
-	fmt.Println(achievement)
-
 	if price != 0 {
 		rating := 0
 		db.QueryRowx("SELECT rating FROM users WHERE users.id = ?", userID).Scan(&rating)
 		rating += price
 		tx := db.MustBegin()
 		tx.MustExec("UPDATE users SET rating=? WHERE users.id = ?", rating, userID)
+		err = tx.Commit()
+		if err != nil {
+			fmt.Println(err)
+		}
+		tx = db.MustBegin()
 		tx.MustExec("INSERT INTO usersAchievements (userId, achievementId) VALUES (?, ?);", userID, receivedAchivementID)
 		err = tx.Commit()
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 	}
 
